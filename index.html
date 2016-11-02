@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="Peta Jakarta">
+    <meta name="author" content="Peta Jakarta">
+
+    <!--Twitter card to embed the map in a tweet - a hack using video player card
+    <meta name="twitter:card" content="player">
+    <meta name="twitter:site" content="@petajkt">
+    <meta name="twitter:creator" content="@petajkt">
+    <meta name="twitter:url" content="https://petajakarta.orgbanjir/id/map">
+    <meta name="twitter:title" content="PetaJakarta.org is a free and open source real-time flood map.">
+    <meta name="twitter:description" content="PetaJakarta.org maps flood tweets and displays real-time information for navigation, safety, and response. Tweet #banjir with your geolocation enabled @petajkt to add your report to the map.">
+    <meta name="twitter:image" content="https://petajakarta.orgbanjir/img/wp_fig15.jpg">
+    <meta name="twitter:player" content="https://petajakarta.orgbanjir/id/map-embed/">
+    <meta name="twitter:player:width" content="500">
+    <meta name="twitter:player:height" content="400">
+    -->
+
+    <title>PetaJakarta IoT demo</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="banjir/img/petajakarta_icon_32x32.png">
+
+    <!-- Site stylesheet -->
+    <link href="banjir/css/common.min.css" rel="stylesheet">
+    <link href="banjir/css/site.min.css" rel="stylesheet">
+    <link href="banjir/css/map.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body class="en">
+
+    <div id="page">
+      <div id="header">
+        <!-- Fixed navbar
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="banjir/en/"><img src="banjir/img/petajakarta_white_pixel_top.png" width="auto" height="48" alt=""/></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar" style="background-color:#CCC;"></span>
+                <span class="icon-bar" style="background-color:#CCC;"></span>
+                <span class="icon-bar" style="background-color:#CCC;"></span>
+              </button>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="banjir/en/">Home</a></li>
+                <li class="active"><a href="banjir/en/map/">Map</a></li>
+                <li><a href="banjir/en/research/">Research</a></li>
+                <li><a href="banjir/en/software">Software</a></li>
+                <!--<li><a href="banjir/en/analytics/">Analytics</a></li>
+                <li><a href="banjir/en/data/v2">Data</a></li>
+                <li><a href="banjir/id/map/">[Bahasa Indonesian]</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        -->
+        <div id="includes"></div>
+      </div>
+
+      <div id="content">
+        <div id="map" class="map site"></div>
+      </div>
+
+    </div>
+
+    <!-- Site JavaScript -->
+
+    <script> //Determine if device is touchscreen/mobile
+      window.isTouch = (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+
+      if (window.isTouch){
+        L_PREFER_CANVAS = true; //Leaflet canvas rendering
+      }
+    </script>
+    <script src="banjir/js/common.min.js"></script>
+    <script src="banjir/js/site.min.js"></script>
+    <script src="banjir/js/map.js"></script>
+
+	<script>
+	$(function() {
+		petajakarta.config.urlPrefix = 'banjir/';
+		petajakarta.config.serverUrlPrefix = 'https://petajakarta.org/banjir/';
+		petajakarta.start();
+	});
+	</script>
+
+
+
+  </body>
+</html>
