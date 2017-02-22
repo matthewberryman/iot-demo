@@ -21772,7 +21772,7 @@ var petajakarta = {
 		// The start of the URL for the web server serving the map resources (CSS, JS, HTML)
 		urlPrefix: '/un-iot-demo/banjir/',
 		// The start of the URL to the API server
-		serverUrlPrefix: 'https://petajakarta.org/banjir/',
+		serverUrlPrefix: 'http://localhost/banjir/',
 		// The start of the URL to the REM API server
 		remServerUrlPrefix: 'https://rem.petajakarta.org/banjir/'
 	},
