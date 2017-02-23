@@ -22088,8 +22088,7 @@ petajakarta.start = function() {
 	//Load reports
 	petajakarta.map.spin(true);
 	petajakarta.layerControl = L.control.layers({}, {}, {position: 'bottomleft'}).addTo(petajakarta.map);
-	petajakarta.loadPrimaryLayers(petajakarta.layerControl).then(petajakarta.loadSecondaryLayers);
-	petajakarta.getREM(petajakarta.loadREM);
+	petajakarta.loadPrimaryLayers(petajakarta.layerControl);
 
 	// Finally, add the legend
 	//petajakarta.mapLegend.addTo(petajakarta.map);
@@ -22388,44 +22387,6 @@ petajakarta.showURLReport = function() {
 			}
 };
 
-/**
-	Plots hydrological infrastructure on map
-
-	@param {string} layer - string - name of infrastructure layer to load
-	@param {object} infrastructure - a GeoJSON object containing infrastructure features
-*/
-
-petajakarta.loadInfrastructure = function(layer, infrastructure){
-	if(infrastructure) {
-		if (layer == 'waterways'){
-			petajakarta[layer] = L.geoJson(infrastructure, {style:petajakarta.styleInfrastructure[layer]});
-		} else if (layer == 'floodgauges'){
-			petajakarta[layer] = L.geoJson(infrastructure, {
-				pointToLayer: function(feature, latlng) {
-					return L.marker(latlng, {icon: L.icon(
-						{
-							iconUrl:petajakarta.config.urlPrefix+'img/'+petajakarta.getSiagaLevelIconography(feature.properties.observations[feature.properties.observations.length-1].warninglevel).icon,
-							iconSize: [22,22],
-							iconAnchor: [11, 11],
-							popupAnchor: [0, 0]
-						}
-					)});
-				}, onEachFeature: petajakarta.floodgaugeMarker
-			}).addTo(petajakarta.map);
-			$('#legendbox').append(petajakarta.gaugesLegend);
-		} else {
-			petajakarta[layer] = L.geoJson(infrastructure, {
-				pointToLayer: function(feature, latlng) {
-					return L.marker(latlng, {icon: petajakarta.styleInfrastructure[layer]});
-				}, onEachFeature: petajakarta.infrastructureMarkerPopup
-			});
-		}
-	} else {
-			petajakarta[layer] = L.geoJson();
-	}
-
-	return petajakarta[layer];
-};
 
 /**
 	Plots floodsensor data points on map
@@ -22593,39 +22554,7 @@ petajakarta.loadPrimaryLayers = function(layerControl) {
 	});
 };
 
-petajakarta.loadSecondaryLayers = function(layerControl) {
-	return new RSVP.Promise(function(resolve, reject) {
-		var secondaryPromises = {
-			waterways: petajakarta.getInfrastructure('waterways')
-				.then(function(waterways){
-					return petajakarta.loadInfrastructure('waterways', waterways);
-				}),
-			pumps: petajakarta.getInfrastructure('pumps')
-				.then(function(pumps){
-					return petajakarta.loadInfrastructure('pumps', pumps);
-				}),
-			floodgates: petajakarta.getInfrastructure('floodgates')
-				.then(function(floodgates){
-					return petajakarta.loadInfrastructure('floodgates', floodgates);
-				}),
-			floodgauges: petajakarta.getInfrastructure('floodgauges')
-				.then(function(floodgauges){
-					return petajakarta.loadInfrastructure('floodgauges', floodgauges);
-				})
 
-		};
-
-		RSVP.hash(secondaryPromises).then(function(overlays) {
-			// Add overlays to the layer control
-			layerControl.addOverlay(overlays.floodgauges, petajakarta.layernames.floodgauges);
-			layerControl.addOverlay(overlays.pumps, petajakarta.layernames.pumps);
-			layerControl.addOverlay(overlays.floodgates, petajakarta.layernames.floodgates);
-			layerControl.addOverlay(overlays.waterways, petajakarta.layernames.waterways);
-			layerControl.addOverlay(overlays.sensors, petajakarta.layernames.sensors);
-			petajakarta.showURLReport(); //once point layers loaded zoom to report specified in URL
-		});
-	});
-};
 
 /**
  * Generate a table based on the provided reports
