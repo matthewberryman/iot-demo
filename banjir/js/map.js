@@ -21773,8 +21773,6 @@ var petajakarta = {
 		urlPrefix: '/un-iot-demo/banjir/',
 		// The start of the URL to the API server
 		serverUrlPrefix: 'http://localhost/banjir/',
-		// The start of the URL to the REM API server
-		remServerUrlPrefix: 'https://rem.petajakarta.org/banjir/'
 	},
 	// Useful status variables
 	status: {
@@ -22310,43 +22308,6 @@ petajakarta.getReport = function(id) {
 				}
 		});
 	});
-};
-
-/**
-	Get GeoJSON representing current flooding
-	@param {function} callback - a function to be called when data is finished loading
-*/
-petajakarta.getREM = function(callback) {
-	jQuery.getJSON( petajakarta.config.remServerUrlPrefix + 'data/api/v2/rem/flooded?format=topojson&minimum_state=1', function(data){
-		if (data.features !== null){
-			callback(topojson.feature(data, data.objects.collection));
-		}
-		else {
-			callback(null);
-		}
-	})
-	.fail(function(){
-		console.log('getREM(): Error fetching REM data');
-	});
-};
-
-/**
-	Load GeoJSON representing current flooding
-	@param {object} data - geojson polygon representation of affected areas
-*/
-petajakarta.loadREM = function(data){
-	petajakarta.floodheights = L.geoJson(data, {clickable: false, style:function(feature){
-		switch (feature.properties.state) {
-			case 4: return {fillColor:"#CC2A41",weight:1,color:"#CC2A41", opacity:0.8,fillOpacity: 0.8};
-			case 3: return {fillColor:"#FF8300",weight:1,color:"#FF8300", opacity:0.8,fillOpacity: 0.8};
-			case 2: return {fillColor:"#FFFF00",weight:1,color:"#FFFF00", opacity:0.8,fillOpacity: 0.8};
-			case 1: return {fillColor:"#A0A9F7", weight:1,color:"#A0A9F7",opacity:0.8,fillOpacity: 0.8};
-			default: return {color:"rgba(0,0,0,0)",weight:0,fillOpacity:0};
-		}
-	}}).addTo(petajakarta.map).bringToBack();
-
-	$('#legendbox').append(petajakarta.heightsLegend);
-	petajakarta.layerControl.addOverlay(petajakarta.floodheights, petajakarta.layernames.floodheights.title);
 };
 
 /** Style confirmed reports
