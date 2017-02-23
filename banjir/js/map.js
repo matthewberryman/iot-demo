@@ -22415,7 +22415,7 @@ petajakarta.loadSensors = function(data){
 			return L.marker(latlng, {icon:icon});
 		},
 		onEachFeature: function(feature, layer){
-			layer.on('click', function(e){
+			layer.on('load', function(e){
 				var properties = feature.properties;
 				$('#sensorModal').modal('show').on('shown.bs.modal', function (event) {
 					var ctx1 = $("#sensorChart1").get(0).getContext("2d");
