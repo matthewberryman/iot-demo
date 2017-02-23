@@ -21959,7 +21959,7 @@ petajakarta.start = function() {
 	};
 
 	//Initialise map
-	petajakarta.latlon = new L.LatLng(-33.845758, 151.070354);
+	petajakarta.latlon = new L.LatLng(-34.433056, 150.883056);
 	petajakarta.map = L.map(petajakarta.config.elementId, {zoomControl:true}).setView(petajakarta.latlon, 16); // Initialise map
 	petajakarta.map.attributionControl.setPrefix('');
 	L.control.scale({'position':'bottomright', 'imperial':false, 'maxWidth':200}).addTo(petajakarta.map);
